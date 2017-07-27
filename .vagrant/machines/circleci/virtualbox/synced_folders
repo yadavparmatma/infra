@@ -1,0 +1,1 @@
+{"virtualbox":{"/vm_shared":{"guestpath":"/vm_shared","hostpath":"/Users/Parmatma/Workspace/vbox/vm_shared","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/Parmatma/Workspace/tmp","disabled":false,"__vagrantfile":true}}}
