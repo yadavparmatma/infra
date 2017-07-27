@@ -7,19 +7,6 @@
 # you're doing.
 Vagrant.configure("2") do |config|
 
-	config.vm.define "windows_box" do |windows_box|
-
-		windows_box.vm.provider :virtualbox do |v|
-			v.name = "windows_box"
-			v.memory = 2048
-		end
-
-		windows_box.vm.box = "mwrock/Windows2012R2"
-		windows_box.vm.synced_folder "/Users/Parmatma/Workspace/vbox/vm_shared", "/vm_shared"
-		windows_box.vm.network :forwarded_port, guest: 8080, host: 80
-		windows_box.vm.network :private_network, ip: "192.168.50.4"
-	end
-
 	config.vm.define "circleci" do |circleci|
 
 		circleci.vm.provider :virtualbox do |v|
@@ -30,7 +17,10 @@ Vagrant.configure("2") do |config|
 		circleci.vm.box = "/Users/Parmatma/Workspace/vbox/boxes/CentOS-7.1.1503-x86_64-netboot.box"
 		circleci.vm.synced_folder "/Users/Parmatma/Workspace/vbox/vm_shared", "/vm_shared"
 		circleci.vm.provision :shell, path: "bootstrap.sh"
-		circleci.vm.network :forwarded_port, guest: 8800, host: 8880
+		circleci.vm.network :forwarded_port, guest: 8800, host: 8880 #for ci setup and docs 
+		circleci.vm.network :forwarded_port, guest: 80, host: 8080   #for public interface
+		circleci.vm.network :forwarded_port, guest: 443, host: 443   #for reverse proxy
+		circleci.vm.network :forwarded_port, guest: 64535, host: 64535 #for dev purpose
 		circleci.vm.network :private_network, ip: "192.168.50.5"
 	end
 
