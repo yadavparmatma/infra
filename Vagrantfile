@@ -14,8 +14,8 @@ Vagrant.configure("2") do |config|
 			v.memory = 8192
 		end
 		
-		circleci.vm.box = "/Users/Parmatma/Workspace/vbox/boxes/CentOS-7.1.1503-x86_64-netboot.box"
-		circleci.vm.synced_folder "/Users/Parmatma/Workspace/vbox/vm_shared", "/vm_shared"
+		circleci.vm.box = "/Users/Parmatma/Workspace/vbox/boxes/CentOS-7.1.1503-x86_64-netboot.box" #provide a box path if having locally otherwise give hasicorp box name
+		circleci.vm.synced_folder "/Users/Parmatma/Workspace/vbox/vm_shared", "/vm_shared" #shared folder path
 		circleci.vm.provision :shell, path: "bootstrap.sh"
 		circleci.vm.network :forwarded_port, guest: 8800, host: 8880 #for ci setup and docs 
 		circleci.vm.network :forwarded_port, guest: 80, host: 8080   #for public interface
