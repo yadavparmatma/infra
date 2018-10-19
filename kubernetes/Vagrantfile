@@ -1,0 +1,39 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  #Configure cluster
+  config.vm.define "kube_master" do |kube|
+
+    kube.vm.provider :virtualbox do |vb|
+      vb.memory = 4096
+      vb.cpus = 4
+    end
+
+    kube.vm.box = "ubuntu/xenial64"
+    kube.vm.synced_folder "/", "/Users/yparmatm/Workspace/infra/kubernetes/synced_folder"
+    kube.vm.provision "shell", path: './provision_scripts/ubuntu_kube.sh'
+
+    kube.vm.network "private_network", ip: "192.168.56.1"
+
+    kube.vm.network :forwarded_port, guest: 8001, host: 8001
+  end  
+
+  #Configure node
+  config.vm.define "kube_node" do |kube|
+
+    kube.vm.provider :virtualbox do |vb|
+      vb.memory = 4096
+      vb.cpus = 4
+    end
+
+    kube.vm.box = "ubuntu/xenial64"
+    kube.vm.synced_folder "/", "/Users/yparmatm/Workspace/infra/kubernetes/synced_folder"
+    kube.vm.provision "shell", path: './provision_scripts/node.sh'
+
+    kube.vm.network "private_network", ip: "192.168.56.2"
+
+    kube.vm.network :forwarded_port, guest: 8002, host: 8002
+  end  
+end  
